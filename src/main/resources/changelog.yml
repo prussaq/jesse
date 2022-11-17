@@ -1,0 +1,165 @@
+databaseChangeLog:
+
+  - changeSet:
+      id: init
+      author: prussaq
+      changes:
+        - createTable:
+            tableName: account
+            remarks: User's account with balance
+            columns:
+              - column:
+                  name: username
+                  type: varchar(20)
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: account_pk
+                    nullable: false
+              - column:
+                  name: password
+                  type: varchar(20)
+                  constraints:
+                    nullable: true
+              - column:
+                  name: money
+                  type: decimal(19, 6)
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: buy
+            remarks: Buys
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: buy_pk
+                    nullable: false
+              - column:
+                  name: date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ticket
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: decimal(19, 6)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: int
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: sell
+            remarks: Sells
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: sell_pk
+                    nullable: false
+              - column:
+                  name: buy_id
+                  type: bigint
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: ticket
+                  type: varchar(20)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: price
+                  type: decimal(19, 6)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: amount
+                  type: int
+                  constraints:
+                    nullable: false
+        - createTable:
+            tableName: equity
+            remarks: Equity Info
+            columns:
+              - column:
+                  name: ticket
+                  type: varchar(20)
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: equity_pk
+                    nullable: false
+              - column:
+                  name: name
+                  type: varchar(20)
+                  constraints:
+                    unique: true
+                    nullable: true
+        - createTable:
+            tableName: money
+            remarks: Money
+            columns:
+              - column:
+                  name: id
+                  type: bigint
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    primaryKeyName: money_pk
+                    nullable: false
+              - column:
+                  name: date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: flow
+                  type: decimal(19, 6)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: action
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: reason
+                  type: varchar(10)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: link
+                  type: bigint
+              - column:
+                  name: balance
+                  type: decimal(19, 6)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: note
+                  type: varchar(100)
+        - insert:
+            tableName: account
+            columns:
+              - column:
+                  name: username
+                  value: USER
+              - column:
+                  name: money
+                  value: 0

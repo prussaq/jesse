@@ -1,0 +1,109 @@
+###
+//@no-log
+POST localhost:9000/jesse/deal/buy
+Content-Type: application/json
+
+{
+  "ticket": "MOEX",
+  "price": 95.000005,
+  "amount": 100
+}
+
+###
+//@no-log
+POST localhost:9000/jesse/deal/sell
+Content-Type: application/json
+
+{
+  "buyId": 1,
+  "ticket": "MOEX",
+  "price": 100,
+  "amount": 50
+}
+
+###
+//@no-log
+GET localhost:9000/jesse/active/profile
+
+###
+//@no-log
+GET localhost:9000/jesse/active/total
+
+###
+//@no-log
+GET localhost:9000/jesse/active/shares
+
+###
+//@no-log
+GET localhost:9000/jesse/active/trades/MOEX
+
+###
+//@no-log
+GET localhost:9000/jesse/complete/shares
+
+###
+//@no-log
+GET localhost:9000/jesse/complete/trades/SBER
+
+###
+//@no-log
+POST localhost:9000/jesse/money/input
+Content-Type: application/json
+
+{
+  "money": 10000
+}
+
+###
+//@no-log
+POST localhost:9000/jesse/money/output
+Content-Type: application/json
+
+{
+  "money": 200
+}
+
+###
+//@no-log
+POST localhost:9000/jesse/money/correct
+Content-Type: application/json
+
+{
+  "money": 20,
+  "action": "DECREASE"
+}
+
+###
+//@no-log
+POST localhost:9000/jesse/market/prices
+Content-Type: application/json
+
+{
+  "tickets": ["UWGN"]
+}
+
+###
+//@no-log
+OPTIONS localhost:9000/jesse/money/correct
+
+###
+//@no-log
+GET localhost:9000/jesse/trade/buy/1
+
+###
+//@no-log
+PUT localhost:9000/jesse/trade/buy
+Content-Type: application/json
+
+{
+  "id": 1,
+  "date": "2021-01-20",
+  "ticket": "AFLT",
+  "price": 74.320000,
+  "amount": 85,
+  "remains": null
+}
+
+###
+//@no-log
+GET localhost:9000/jesse/complete/profile

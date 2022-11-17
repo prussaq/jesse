@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org" lang="en">
+
+<head lang="en">
+    <meta charset="UTF-8"/>
+    <title>Jesse App</title>
+    <link th:href="@{/styles/main.css}" rel="stylesheet"/>
+    <link rel="shortcut icon" th:href="@{/favicon.ico}">
+</head>
+
+<body>
+<div>
+    <h3>Jesse Application v.1.0</h3>
+</div>
+
+<!-- Tab links -->
+<div class="tab">
+    <button class="tablinks" onclick="openTab(this, 'activePositionsTab')" id="defaultTab">Active Positions</button>
+    <button class="tablinks" onclick="openTab(this, 'completePositionsTab')">Complete Positions</button>
+    <button class="tablinks" onclick="openTab(this, 'MoneyFlowTab')">Statistics</button>
+
+    <div>
+        <button onclick="openBuyModal()">Buy</button>
+        <button onclick="openSellModal()">Sell</button>
+        <button>Money</button>
+        <button>Settings</button>
+        <button onclick="toggleMarket(this)" id="marketButton">Market</button>
+    </div>
+</div>
+
+<!-- Tab content -->
+<div id="activePositionsTab" class="tabcontent">
+
+    <div class="grid-container">
+        <div class="summaryItem">
+            <h4>Summary</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Count</th>
+                    <th>Balance</th>
+                    <th>Money</th>
+                    <th>Top</th>
+                </tr>
+                </thead>
+                <tbody id="activeSummaryTbody">
+                <tr>
+                    <td id="activeSummaryCountTd"></td>
+                    <td id="activeSummaryBalanceTd"></td>
+                    <td id="activeSummaryMoneyTd"></td>
+                    <td id="activeSummaryTopTd"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="detailsItem">
+            <h4>Details</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ticket</th>
+                    <th>Name</th>
+                    <th>Market</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td id="activeDetailsIdTd"></td>
+                    <td id="activeDetailsTicketTd"></td>
+                    <td id="activeDetailsNameTd"></td>
+                    <td id="activeDetailsMarketTd"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="sharesItem">
+            <h4>Shares</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Act</th>
+                    <th>Ticket</th>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Total</th>
+                    <th>Best</th>
+                </tr>
+                </thead>
+                <tbody id="activeSharesTbody">
+
+                </tbody>
+            </table>
+        </div>
+        <div class="item4">
+            <h4>Trades</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Date</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                    <th>Remains</th>
+                    <th>Total</th>
+                    <th>Profit</th>
+                    <th>Percent</th>
+                    <th>Act</th>
+                </tr>
+                </thead>
+                <tbody id="activeTradesTbody">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="buyModal" class="modal">
+        <form class="modal-content" id="buyForm">
+            <div class="imgcontainer">
+                <span onclick="document.getElementById('buyModal').style.display='none'" class="close" title="Close Modal">&times;</span>
+            </div>
+            <div class="container">
+                <label for="date"><b>Date</b></label>
+                <input id="buyDateInput" type="date" placeholder="Date" name="date" required>
+
+                <label for="ticket"><b>Ticket</b></label>
+                <input id="buyTicketInput" type="text" placeholder="Enter Ticket" name="ticket" required>
+
+                <label for="price"><b>Price</b></label>
+                <input type="text" placeholder="Enter Price" name="price" required>
+
+                <label for="amount"><b>Amount</b></label>
+                <input type="text" placeholder="Enter Amount" name="amount" required>
+
+                <button class="submitbtn" type="submit">Buy</button>
+            </div>
+        </form>
+    </div>
+    <div id="sellModal" class="modal">
+        <form class="modal-content" id="sellForm">
+            <div class="imgcontainer">
+                <span onclick="document.getElementById('sellModal').style.display='none'" class="close" title="Close Modal">&times;</span>
+            </div>
+            <div class="container">
+                <label for="date"><b>Date</b></label>
+                <input id="sellDateInput" type="date" placeholder="Date" name="date" required>
+
+                <label for="buyId"><b>Buy ID</b></label>
+                <input id="sellBuyIdInput" type="text" placeholder="Enter Buy ID" name="buyId" required>
+
+                <label for="ticket"><b>Ticket</b></label>
+                <input id="sellTicketInput" type="text" placeholder="Enter Ticket" name="ticket" required>
+
+                <label for="price"><b>Price</b></label>
+                <input type="text" placeholder="Enter Price" name="price" required>
+
+                <label for="amount"><b>Amount</b></label>
+                <input type="text" placeholder="Enter Amount" name="amount" required>
+
+                <button style="background-color: orangered" class="submitbtn" type="submit">Sell</button>
+            </div>
+        </form>
+    </div>
+
+</div>
+
+<div id="completePositionsTab" class="tabcontent">
+
+    <div class="grid-container">
+        <div class="summaryItem">
+            <h4>Summary</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Count</th>
+                    <th>Totality</th>
+                    <th>Top</th>
+                </tr>
+                </thead>
+                <tbody id="completeSummaryTbody">
+                <tr>
+                    <td id="completeSummaryCountTd"></td>
+                    <td id="completeSummaryTotalityTd"></td>
+                    <td id="completeSummaryTopTd"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="detailsItem">
+            <h4>Details</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Ticket</th>
+                    <th>Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td id="completeDetailsIdTd"></td>
+                    <td id="completeDetailsTicketTd"></td>
+                    <td id="completeDetailsNameTd"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="sharesItem">
+            <h4>Shares</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Act</th>
+                    <th>Ticket</th>
+                    <th>Name</th>
+                    <th>Amount</th>
+                    <th>Total</th>
+                    <th>Best</th>
+                </tr>
+                </thead>
+                <tbody id="completeSharesTbody">
+
+                </tbody>
+            </table>
+        </div>
+        <div class="item4">
+            <h4>Trades</h4>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Date</th>
+                    <th>Price</th>
+                    <th>Amount</th>
+                    <th>Total</th>
+                    <th>Profit</th>
+                    <th>Percent</th>
+                    <th>Act</th>
+                </tr>
+                </thead>
+                <tbody id="completeTradesTbody">
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+<div id="StatisticsTab" class="tabcontent">
+    <h3>Statistics</h3>
+    <p>Statistics Tab</p>
+</div>
+
+</body>
+
+<script type="text/javascript" th:src="@{/js/lib/jquery-3.6.1.js}"></script>
+<script type="text/javascript" th:src="@{/js/script.js}"></script>
+<script>
+    // Get the modal
+    var modal = document.getElementById('buyModal');
+
+    // When the user clicks anywhere outside the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+</html>
