@@ -322,6 +322,7 @@ function loadCompleteShares() {
             "</tr>";
     });
     document.getElementById("completeSharesTbody").innerHTML = tcontent;
+    fillCompleteBests();
     $("#completeSharesTbody tr:first").click();
 }
 
@@ -341,6 +342,7 @@ function loadCompleteTrades(element) {
             "<td class='priceTd'>" + trade.buy.price + "</td>" +
             "<td>" + trade.buy.amount + "</td>" +
             "<td class='totalTd'>" + total.toLocaleString('en-US', {maximumFractionDigits: 2}) + "</td>" +
+            "<td class='sumTd'></td>" +
             "<td class='profitTd'></td>" +
             "<td class='percentTd'></td>" +
             "<td><button>Edit</button></td>" +
@@ -354,14 +356,6 @@ function loadCompleteTrades(element) {
 function fillCompleteDetails(ticket) {
     $("#completeDetailsTicketTd").text(ticket);
     $("#completeDetailsNameTd").text(profile.shares[ticket].name);
-}
-
-function onMouseOutCompleteTrade() {
-    $("#completeDetailsIdTd").text("");
-}
-
-function onMouseOverCompleteTrade(element) {
-    $("#completeDetailsIdTd").text(element.id.includes(":") ? element.id.split(":")[1] : element.id);
 }
 
 function toggleCompleteSells(element) {
@@ -389,6 +383,7 @@ function toggleCompleteSells(element) {
                 "<td>" + sell.price + "</td>" +
                 "<td>" + sell.amount + "</td>" +
                 "<td>" + total.toLocaleString('en-US', {maximumFractionDigits: 2}) + "</td>" +
+                "<td>-</td>" +
                 "<td>" + profit.toLocaleString('en-US', {maximumFractionDigits: 2}) + "</td>" +
                 "<td>" + percent + "%</td>" +
                 "<td><button>Edit</button></td>" +
@@ -403,5 +398,45 @@ function toggleCompleteSells(element) {
 }
 
 function fillCompleteProfits() {
+    $("#completeTradesTbody > tr").each((idx, tr) => {
+        let [ticket, buyId] = tr.id.split(":");
+        let trade = profile.shares[ticket].trades.find(function (val) {
+            return val.buy.id === parseInt(buyId);
+        });
+        let total = trade.buy.price * trade.buy.amount;
+        let profit = trade.sum - total;
+        let percent = Math.trunc(profit / total * 100);
+        $(tr).children(".sumTd").text(trade.sum.toLocaleString('en-US', {maximumFractionDigits: 2}));
+        $(tr).children(".profitTd").text(profit.toLocaleString('en-US', {maximumFractionDigits: 2}));
+        $(tr).children(".percentTd").text(percent + "%").css(percent > 0 ? {"color": "green"} : {"color" : "DarkRed"});
+    });
+}
 
+function fillCompleteBests() {
+    let best = Number.MIN_VALUE;
+    let top = Number.MIN_VALUE;
+
+    $("#completeSharesTbody > tr").each(function (idx, tr) {
+        let ticket = tr.id;
+        let bestTd = $(tr).children(".bestTd");
+
+        profile.shares[ticket].trades.forEach(trade => {
+            let total = trade.buy.price * trade.buy.amount;
+            let profit = trade.sum - total;
+            let percent = Math.trunc(profit / total * 100);
+            best = Math.max(best, percent);
+        });
+        bestTd.text((best > 0 ? "+" + best : best) + "%").css(best > 0 ? {"color": "green"} : {"color" : "DarkRed"});
+        top = Math.max(top, best);
+
+    });
+    $("#completeSummaryTopTd").text((top > 0 ? "+" + top : top) + "%");
+}
+
+function onMouseOutCompleteTrade() {
+    $("#completeDetailsIdTd").text("");
+}
+
+function onMouseOverCompleteTrade(element) {
+    $("#completeDetailsIdTd").text(element.id.includes(":") ? element.id.split(":")[1] : element.id);
 }

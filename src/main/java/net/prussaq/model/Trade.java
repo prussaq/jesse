@@ -2,14 +2,18 @@ package net.prussaq.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Getter
 @AllArgsConstructor
+@RequiredArgsConstructor
 public class Trade {
 
-    private Buy buy;
-    private List<Sell> sells;
+    private final Buy buy;
+    private final List<Sell> sells;
+    private BigDecimal sum;
 
 }

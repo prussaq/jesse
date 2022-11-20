@@ -35,18 +35,22 @@ public class CompleteService {
                     .peek(sellEntity -> sells.add(mapper.map(sellEntity, Sell.class)))
                     .mapToInt(SellEntity::getAmount).sum();
             if (buyEntity.getAmount() == sellAmount) {
-                BigDecimal total = buyEntity.getPrice().multiply(new BigDecimal(sellAmount));
+//                BigDecimal total = buyEntity.getPrice().multiply(new BigDecimal(sellAmount));
+                BigDecimal sum = sells.stream()
+                        .map(sell -> sell.getPrice().multiply(new BigDecimal(sell.getAmount())))
+                        .reduce(BigDecimal::add)
+                        .orElse(BigDecimal.ZERO);
                 Buy buy = mapper.map(buyEntity, Buy.class);
                 profile.getShares().compute(buy.getTicket(), (ticket, share) -> {
                     if (share == null) {
                         share = new Share(ticket, equityService.getName(ticket));
                     }
                     share.addAmount(sellAmount);
-                    share.addTotal(total);
-                    share.addTrade(new Trade(buy, sells));
+                    share.addTotal(sum);
+                    share.addTrade(new Trade(buy, sells, sum));
                     return share;
                 });
-                profile.addBalance(total);
+                profile.addBalance(sum);
             }
         });
         return profile;

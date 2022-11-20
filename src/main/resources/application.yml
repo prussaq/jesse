@@ -9,7 +9,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.H2Dialect
   liquibase:
-    change-log: classpath:changelog.yml
+    change-log: classpath:db/changelog.yml
 #  sql:
 #    init:
 #      mode: never
