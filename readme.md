@@ -1,4 +1,4 @@
-Jesse App version 1.0.0
+Jesse App version 1.0.0 (draft)
 
 Jesse is a trade assistant app helping to track all made deals.
 

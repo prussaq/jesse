@@ -35,7 +35,6 @@ public class CompleteService {
                     .peek(sellEntity -> sells.add(mapper.map(sellEntity, Sell.class)))
                     .mapToInt(SellEntity::getAmount).sum();
             if (buyEntity.getAmount() == sellAmount) {
-//                BigDecimal total = buyEntity.getPrice().multiply(new BigDecimal(sellAmount));
                 BigDecimal sum = sells.stream()
                         .map(sell -> sell.getPrice().multiply(new BigDecimal(sell.getAmount())))
                         .reduce(BigDecimal::add)

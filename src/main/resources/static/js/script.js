@@ -4,6 +4,7 @@ $(document).ready(function () {
     document.getElementById("defaultTab").click();
     document.getElementById("buyForm").addEventListener("submit", buyFormSubmitListener);
     document.getElementById("sellForm").addEventListener("submit", sellFormSubmitListener);
+    document.getElementById("moneyForm").addEventListener("submit", moneyFormSubmitListener);
 });
 
 function openTab(element, tabId) {
@@ -224,52 +225,6 @@ function refreshProfits() {
     }
 }
 
-function openBuyModal() {
-    document.getElementById('buyModal').style.display='block';
-    document.getElementById("buyForm").reset();
-    $("#buyDateInput").val(new Date().toISOString().split("T")[0]);
-}
-
-function openSellModal() {
-    document.getElementById('sellModal').style.display='block';
-    document.getElementById("sellForm").reset();
-    $("#sellDateInput").val(new Date().toISOString().split("T")[0]);
-}
-
-function buyFormSubmitListener(event) {
-    event.preventDefault();
-    let formData = new FormData(document.getElementById("buyForm"));
-    console.log(JSON.stringify(Object.fromEntries(formData.entries())));
-    $.ajax({
-        type: "POST",
-        url: "/jesse/deal/buy",
-        // dataType: "json",
-        contentType: "application/json; charset=utf-8",
-        data: JSON.stringify(Object.fromEntries(formData.entries()))
-    }).done(response => {
-        document.getElementById('buyModal').style.display='none';
-        refreshActiveTab();
-    });
-    return false;
-}
-
-function sellFormSubmitListener(event) {
-    event.preventDefault();
-    let formData = new FormData(document.getElementById("sellForm"));
-    console.log(JSON.stringify(Object.fromEntries(formData.entries())));
-    $.ajax({
-        type: "POST",
-        contentType: "application/json; charset=utf-8",
-        url: "/jesse/deal/sell",
-        // dataType: "json",
-        data: JSON.stringify(Object.fromEntries(formData.entries()))
-    }).done(response => {
-        document.getElementById('sellModal').style.display='none';
-        refreshActiveTab();
-    });
-    return false;
-}
-
 function onBuyHandler(element) {
     openBuyModal();
     $("#buyTicketInput").val(element.parentElement.parentElement.id).attr('readonly', true);
@@ -439,4 +394,75 @@ function onMouseOutCompleteTrade() {
 
 function onMouseOverCompleteTrade(element) {
     $("#completeDetailsIdTd").text(element.id.includes(":") ? element.id.split(":")[1] : element.id);
+}
+
+// MODALS
+
+function openBuyModal() {
+    document.getElementById('buyModal').style.display='block';
+    document.getElementById("buyForm").reset();
+    $("#buyDateInput").val(new Date().toISOString().split("T")[0]);
+}
+
+function openSellModal() {
+    document.getElementById('sellModal').style.display='block';
+    document.getElementById("sellForm").reset();
+    $("#sellDateInput").val(new Date().toISOString().split("T")[0]);
+}
+
+function openMoneyModal() {
+    document.getElementById('moneyModal').style.display='block';
+    document.getElementById("moneyForm").reset();
+}
+
+function buyFormSubmitListener(event) {
+    event.preventDefault();
+    let formData = new FormData(document.getElementById("buyForm"));
+    console.log(JSON.stringify(Object.fromEntries(formData.entries())));
+    $.ajax({
+        type: "POST",
+        url: "/jesse/deal/buy",
+        // dataType: "json",
+        contentType: "application/json; charset=utf-8",
+        data: JSON.stringify(Object.fromEntries(formData.entries()))
+    }).done(response => {
+        document.getElementById('buyModal').style.display='none';
+        refreshActiveTab();
+    });
+    return false;
+}
+
+function sellFormSubmitListener(event) {
+    event.preventDefault();
+    let formData = new FormData(document.getElementById("sellForm"));
+    console.log(JSON.stringify(Object.fromEntries(formData.entries())));
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "/jesse/deal/sell",
+        // dataType: "json",
+        data: JSON.stringify(Object.fromEntries(formData.entries()))
+    }).done(response => {
+        document.getElementById('sellModal').style.display='none';
+        refreshActiveTab();
+    });
+    return false;
+}
+
+function moneyFormSubmitListener(event) {
+    event.preventDefault();
+    let formData = new FormData(document.getElementById("moneyForm"));
+    console.log(JSON.stringify(Object.fromEntries(formData.entries())));
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "/jesse/money/change",
+        data: JSON.stringify(Object.fromEntries(formData.entries()))
+    }).done(response => {
+        document.getElementById('moneyModal').style.display='none';
+        $.get("/jesse/money", function (data) {
+            $("#activeSummaryMoneyTd").text(data.toLocaleString('en-US', {maximumFractionDigits: 2}));
+        });
+    });
+    return false;
 }

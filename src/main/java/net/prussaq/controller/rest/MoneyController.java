@@ -1,10 +1,14 @@
 package net.prussaq.controller.rest;
 
 import lombok.AllArgsConstructor;
-import net.prussaq.model.MoneyDto;
+import lombok.extern.slf4j.Slf4j;
+import net.prussaq.model.Money;
 import net.prussaq.service.MoneyService;
 import org.springframework.web.bind.annotation.*;
 
+import java.math.BigDecimal;
+
+@Slf4j
 @RestController
 @AllArgsConstructor
 @RequestMapping("money")
@@ -12,20 +16,16 @@ public class MoneyController {
 
     private final MoneyService service;
 
-    @PostMapping("input")
-    public void input(@RequestBody MoneyDto moneyDto) {
-        service.input(moneyDto.getMoney(), moneyDto.getNote());
+    @PostMapping("change")
+    public void change(@RequestBody Money money) {
+        log.info("POST money/change requested; body: {}", money);
+        service.change(money);
     }
 
-    @PostMapping("output")
-    public void output(@RequestBody MoneyDto moneyDto) {
-        service.output(moneyDto.getMoney(), moneyDto.getNote());
-    }
-
-    @PostMapping("correct")
-    public void correct(@RequestBody MoneyDto moneyDto) {
-        assert moneyDto.getAction() != null;
-        service.correct(moneyDto.getMoney(), moneyDto.getAction(), moneyDto.getNote());
+    @GetMapping
+    public BigDecimal get() {
+        log.info("GET money/ requested");
+        return service.get();
     }
 
 }

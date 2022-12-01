@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import net.prussaq.constant.Action;
 import net.prussaq.constant.Reason;
 import net.prussaq.entity.MoneyEntity;
+import net.prussaq.model.Money;
 import net.prussaq.repository.MoneyRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,54 +18,28 @@ public class MoneyService {
     private final AccountService accountService;
     private final MoneyRepository moneyRepository;
 
-    public void input(BigDecimal money, String note) {
-        accountService.increaseMoney(money);
-
-        MoneyEntity moneyEntity = MoneyEntity.builder()
-                .date(LocalDate.now())
-                .flow(money)
-                .action(Action.INCREASE)
-                .reason(Reason.INPUT)
-                .balance(accountService.getMoney())
-                .note(note)
-                .build();
-        moneyRepository.save(moneyEntity);
-    }
-
-    public void output(BigDecimal money, String note) {
-        accountService.decreaseMoney(money);
-
-        MoneyEntity moneyEntity = MoneyEntity.builder()
-                .date(LocalDate.now())
-                .flow(money)
-                .action(Action.DECREASE)
-                .reason(Reason.OUTPUT)
-                .balance(accountService.getMoney())
-                .note(note)
-                .build();
-        moneyRepository.save(moneyEntity);
-    }
-
-    public void correct(BigDecimal money, Action action, String note) {
-        MoneyEntity moneyEntity = MoneyEntity.builder()
-                .date(LocalDate.now())
-                .flow(money)
-                .reason(Reason.CORRECTION)
-                .note(note)
-                .build();
-
-        switch (action) {
+    public void change(Money money) {
+        switch (money.getAction()) {
             case INCREASE:
-                accountService.increaseMoney(money);
-                moneyEntity.setAction(Action.INCREASE);
+                accountService.increaseMoney(money.getMoney());
                 break;
             case DECREASE:
-                accountService.decreaseMoney(money);
-                moneyEntity.setAction(Action.DECREASE);
+                accountService.decreaseMoney(money.getMoney());
                 break;
         }
-        moneyEntity.setBalance(accountService.getMoney());
-
+        MoneyEntity moneyEntity = MoneyEntity.builder()
+                .date(LocalDate.now())
+                .flow(money.getMoney())
+                .action(money.getAction())
+                .reason(money.getReason())
+                .balance(accountService.getMoney())
+                .note(money.getNote())
+                .build();
         moneyRepository.save(moneyEntity);
     }
+
+    public BigDecimal get() {
+        return accountService.getMoney();
+    }
+
 }

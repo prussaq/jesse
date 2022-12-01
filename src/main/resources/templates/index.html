@@ -22,7 +22,7 @@
     <div>
         <button onclick="openBuyModal()">Buy</button>
         <button onclick="openSellModal()">Sell</button>
-        <button>Money</button>
+        <button onclick="openMoneyModal()">Money</button>
         <button>Settings</button>
         <button onclick="toggleMarket(this)" id="marketButton">Market</button>
     </div>
@@ -113,54 +113,6 @@
                 </tbody>
             </table>
         </div>
-    </div>
-
-    <div id="buyModal" class="modal">
-        <form class="modal-content" id="buyForm">
-            <div class="imgcontainer">
-                <span onclick="document.getElementById('buyModal').style.display='none'" class="close" title="Close Modal">&times;</span>
-            </div>
-            <div class="container">
-                <label for="date"><b>Date</b></label>
-                <input id="buyDateInput" type="date" placeholder="Date" name="date" required>
-
-                <label for="ticket"><b>Ticket</b></label>
-                <input id="buyTicketInput" type="text" placeholder="Enter Ticket" name="ticket" required>
-
-                <label for="price"><b>Price</b></label>
-                <input type="text" placeholder="Enter Price" name="price" required>
-
-                <label for="amount"><b>Amount</b></label>
-                <input type="text" placeholder="Enter Amount" name="amount" required>
-
-                <button class="submitbtn" type="submit">Buy</button>
-            </div>
-        </form>
-    </div>
-    <div id="sellModal" class="modal">
-        <form class="modal-content" id="sellForm">
-            <div class="imgcontainer">
-                <span onclick="document.getElementById('sellModal').style.display='none'" class="close" title="Close Modal">&times;</span>
-            </div>
-            <div class="container">
-                <label for="date"><b>Date</b></label>
-                <input id="sellDateInput" type="date" placeholder="Date" name="date" required>
-
-                <label for="buyId"><b>Buy ID</b></label>
-                <input id="sellBuyIdInput" type="text" placeholder="Enter Buy ID" name="buyId" required>
-
-                <label for="ticket"><b>Ticket</b></label>
-                <input id="sellTicketInput" type="text" placeholder="Enter Ticket" name="ticket" required>
-
-                <label for="price"><b>Price</b></label>
-                <input type="text" placeholder="Enter Price" name="price" required>
-
-                <label for="amount"><b>Amount</b></label>
-                <input type="text" placeholder="Enter Amount" name="amount" required>
-
-                <button style="background-color: orangered" class="submitbtn" type="submit">Sell</button>
-            </div>
-        </form>
     </div>
 
 </div>
@@ -254,6 +206,88 @@
     <p>Statistics Tab</p>
 </div>
 
+<div id="buyModal" class="modal">
+    <form class="modal-content" id="buyForm">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('buyModal').style.display='none'" class="close" title="Close Modal">&times;</span>
+        </div>
+        <div class="container">
+            <label for="date"><b>Date</b></label>
+            <input id="buyDateInput" type="date" placeholder="Date" name="date" required>
+
+            <label for="ticket"><b>Ticket</b></label>
+            <input id="buyTicketInput" type="text" placeholder="Enter Ticket" name="ticket" required>
+
+            <label for="price"><b>Price</b></label>
+            <input type="text" placeholder="Enter Price" name="price" required>
+
+            <label for="amount"><b>Amount</b></label>
+            <input type="text" placeholder="Enter Amount" name="amount" required>
+
+            <button class="submitbtn" type="submit">Buy</button>
+        </div>
+    </form>
+</div>
+<div id="sellModal" class="modal">
+    <form class="modal-content" id="sellForm">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('sellModal').style.display='none'" class="close" title="Close Modal">&times;</span>
+        </div>
+        <div class="container">
+            <label for="date"><b>Date</b></label>
+            <input id="sellDateInput" type="date" placeholder="Date" name="date" required>
+
+            <label for="buyId"><b>Buy ID</b></label>
+            <input id="sellBuyIdInput" type="text" placeholder="Enter Buy ID" name="buyId" required>
+
+            <label for="ticket"><b>Ticket</b></label>
+            <input id="sellTicketInput" type="text" placeholder="Enter Ticket" name="ticket" required>
+
+            <label for="price"><b>Price</b></label>
+            <input type="text" placeholder="Enter Price" name="price" required>
+
+            <label for="amount"><b>Amount</b></label>
+            <input type="text" placeholder="Enter Amount" name="amount" required>
+
+            <button style="background-color: orangered" class="submitbtn" type="submit">Sell</button>
+        </div>
+    </form>
+</div>
+<div id="moneyModal" class="modal">
+    <form class="modal-content" id="moneyForm">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('moneyModal').style.display='none'" class="close"
+                  title="Close Modal">&times;</span>
+        </div>
+        <div class="container">
+
+            <label for="money"><b>Money</b></label>
+            <input type="text" placeholder="Enter Money" name="money" required>
+
+            <label for="action"><b>Action</b></label>
+            <select name="action" required>
+                <option disabled selected value>Select Action</option>
+                <option value="INCREASE">INCREASE</option>
+                <option value="DECREASE">DECREASE</option>
+            </select>
+
+            <label for="reason"><b>Reason</b></label>
+            <select name="reason" required>
+                <option disabled selected value>Select Reason</option>
+                <option value="INPUT">INPUT</option>
+                <option value="OUTPUT">OUTPUT</option>
+                <option value="CORRECTION">CORRECTION</option>
+            </select>
+
+            <label for="note"><b>Note</b></label>
+            <input type="text" placeholder="Enter Note" name="note">
+
+            <button style="background-color: gray" class="submitbtn" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+
+
 </body>
 
 <script type="text/javascript" th:src="@{/js/lib/jquery-3.6.1.js}"></script>
@@ -263,7 +297,7 @@
     var modal = document.getElementById('buyModal');
 
     // When the user clicks anywhere outside the modal, close it
-    window.onclick = function(event) {
+    window.onclick = function (event) {
         if (event.target == modal) {
             modal.style.display = "none";
         }

@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import net.prussaq.constant.Action;
+import net.prussaq.constant.Reason;
 import org.springframework.lang.NonNull;
 import org.springframework.lang.Nullable;
 
@@ -14,13 +15,16 @@ import java.math.BigDecimal;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class MoneyDto {
+public class Money {
 
     @NonNull
     private BigDecimal money;
 
-    @Nullable
+    @NonNull
     private Action action;
+
+    @NonNull
+    private Reason reason;
 
     @Nullable
     private String note;
