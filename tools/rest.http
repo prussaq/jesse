@@ -107,3 +107,7 @@ Content-Type: application/json
 ###
 //@no-log
 GET localhost:9000/jesse/complete/profile
+
+###
+//@no-log
+GET localhost:9000/jesse/database/backup

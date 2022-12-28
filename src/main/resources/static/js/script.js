@@ -5,6 +5,7 @@ $(document).ready(function () {
     document.getElementById("buyForm").addEventListener("submit", buyFormSubmitListener);
     document.getElementById("sellForm").addEventListener("submit", sellFormSubmitListener);
     document.getElementById("moneyForm").addEventListener("submit", moneyFormSubmitListener);
+    document.getElementById("equityForm").addEventListener("submit", equityFormSubmitListener);
 });
 
 function openTab(element, tabId) {
@@ -415,6 +416,11 @@ function openMoneyModal() {
     document.getElementById("moneyForm").reset();
 }
 
+function openEquityModal() {
+    document.getElementById('equityModal').style.display='block';
+    document.getElementById("equityForm").reset();
+}
+
 function buyFormSubmitListener(event) {
     event.preventDefault();
     let formData = new FormData(document.getElementById("buyForm"));
@@ -422,7 +428,6 @@ function buyFormSubmitListener(event) {
     $.ajax({
         type: "POST",
         url: "/jesse/deal/buy",
-        // dataType: "json",
         contentType: "application/json; charset=utf-8",
         data: JSON.stringify(Object.fromEntries(formData.entries()))
     }).done(response => {
@@ -440,7 +445,6 @@ function sellFormSubmitListener(event) {
         type: "POST",
         contentType: "application/json; charset=utf-8",
         url: "/jesse/deal/sell",
-        // dataType: "json",
         data: JSON.stringify(Object.fromEntries(formData.entries()))
     }).done(response => {
         document.getElementById('sellModal').style.display='none';
@@ -463,6 +467,22 @@ function moneyFormSubmitListener(event) {
         $.get("/jesse/money", function (data) {
             $("#activeSummaryMoneyTd").text(data.toLocaleString('en-US', {maximumFractionDigits: 2}));
         });
+    });
+    return false;
+}
+
+function equityFormSubmitListener(event) {
+    event.preventDefault();
+    let formData = new FormData(document.getElementById("equityForm"));
+    console.log(JSON.stringify(Object.fromEntries(formData.entries())));
+    $.ajax({
+        type: "POST",
+        contentType: "application/json; charset=utf-8",
+        url: "/jesse/equity",
+        data: JSON.stringify(Object.fromEntries(formData.entries()))
+    }).done(response => {
+        document.getElementById('equityModal').style.display='none';
+        refreshActiveTab();
     });
     return false;
 }

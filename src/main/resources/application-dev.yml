@@ -1,3 +1,8 @@
 spring:
   liquibase:
     change-log: classpath:db/changelog-dev.yml
+  datasource:
+    url: jdbc:h2:file:./jessedb/jessedb
+
+database:
+  backup-path: ./jessedb/backup.zip

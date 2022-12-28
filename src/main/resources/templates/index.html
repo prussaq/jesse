@@ -23,7 +23,7 @@
         <button onclick="openBuyModal()">Buy</button>
         <button onclick="openSellModal()">Sell</button>
         <button onclick="openMoneyModal()">Money</button>
-        <button>Settings</button>
+        <button onclick="openEquityModal()">Equity</button>
         <button onclick="toggleMarket(this)" id="marketButton">Market</button>
     </div>
 </div>
@@ -281,6 +281,24 @@
 
             <label for="note"><b>Note</b></label>
             <input type="text" placeholder="Enter Note" name="note">
+
+            <button style="background-color: gray" class="submitbtn" type="submit">Submit</button>
+        </div>
+    </form>
+</div>
+<div id="equityModal" class="modal">
+    <form class="modal-content" id="equityForm">
+        <div class="imgcontainer">
+            <span onclick="document.getElementById('equityModal').style.display='none'" class="close"
+                  title="Close Modal">&times;</span>
+        </div>
+        <div class="container">
+
+            <label for="ticket"><b>Ticket</b></label>
+            <input type="text" placeholder="Enter Ticket" name="ticket" required>
+
+            <label for="name"><b>Name</b></label>
+            <input type="text" placeholder="Enter Name" name="name" required>
 
             <button style="background-color: gray" class="submitbtn" type="submit">Submit</button>
         </div>
