@@ -4,5 +4,8 @@ spring:
   datasource:
     url: jdbc:h2:file:./jessedb/jessedb
 
+server:
+  address: 127.0.0.1
+
 database:
   backup-path: ./jessedb/backup.zip
