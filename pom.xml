@@ -13,6 +13,9 @@
     <groupId>net.prussaq</groupId>
     <artifactId>jesse</artifactId>
     <version>1.0</version>
+    <packaging>jar</packaging>
+    <name>jesse-app</name>
+    <description>Jesse Application</description>
 
     <properties>
         <maven.compiler.source>11</maven.compiler.source>
@@ -63,5 +66,27 @@
             <optional>true</optional>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                        <configuration>
+                            <classifier>spring-boot</classifier>
+                            <mainClass>
+                                net.prussaq.jesse.Main
+                            </mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>

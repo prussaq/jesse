@@ -202,16 +202,34 @@ databaseChangeLog:
               - column:
                   name: name
                   value: МосБиржа
+              - column:
+                  name: ticket
+                  value: UCSS
+              - column:
+                  name: name
+                  value: ОКС ао
+              - column:
+                  name: ticket
+                  value: SBER
+              - column:
+                  name: name
+                  value: Сбербанк
+              - column:
+                  name: ticket
+                  value: UWGN
+              - column:
+                  name: name
+                  value: ОВК ао
         - sql:
             dbms: 'h2'
             endDelimiter: \nGO
             splitStatements: true
             stripComments: true
             sql:
-              insert into buy (date, ticket, price, amount) values ('2021-01-21', 'AFLT', 74.32, 80);
-              insert into buy (date, ticket, price, amount) values ('2021-06-14', 'AFLT', 72.4, 130);
-              insert into buy (date, ticket, price, amount) values ('2021-09-13', 'AFLT', 67.4, 60);
-              insert into buy (date, ticket, price, amount) values ('2022-08-08', 'AFLT', 26.64, 40);
+              insert into buy (date, ticket, price, amount) values ('2021-01-21', 'AFLT', 74.47, 50);
+              insert into buy (date, ticket, price, amount) values ('2021-06-14', 'AFLT', 72.7, 100);
+              insert into buy (date, ticket, price, amount) values ('2021-09-13', 'AFLT', 67.76, 50);
+              insert into buy (date, ticket, price, amount) values ('2022-08-08', 'AFLT', 26.2, 30);
               insert into buy (date, ticket, price, amount) values ('2022-01-10', 'VTBR', 0.04884, 400000);
               insert into buy (date, ticket, price, amount) values ('2022-01-12', 'VTBR', 0.050385, 300000);
               insert into buy (date, ticket, price, amount) values ('2022-05-19', 'VTBR', 0.019125, 80000);
